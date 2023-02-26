@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "478229514958",
+    "firebase_url": "https://lockey-2421a-default-rtdb.firebaseio.com",
+    "project_id": "lockey-2421a",
+    "storage_bucket": "lockey-2421a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:478229514958:android:ca3320d73d1e6befe09e9f",
+        "android_client_info": {
+          "package_name": "com.example.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "478229514958-mejt3u8vnpf7sruotalg7laforsdkj1d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmig08jf2UU4clB3-GPC-Y1VfLDtNZM-A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "478229514958-3uqgvh0pgbffurl19im86qdk2rblajd3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "478229514958-bpl4m8ugb52o949dgvt6bi72lugoavpb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
