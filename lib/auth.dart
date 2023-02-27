@@ -8,16 +8,23 @@ class Auth {
 
   Stream<User?> get authStateChanges => _auth.authStateChanges();
 
-  Future<void> signInWithEmailAndPassword(String email, String password) async {
-    print("email: $email, password: $password");
-    var response = await _auth.signInWithEmailAndPassword(
-        email: email, password: password);
-    print("response: $response");
+  Future<void> signInWithEmailAndPassword(
+      String email, String password, Function errorState) async {
+    try {
+      print("email: $email, password: $password");
+      var response = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      print("response: $response");
+    } catch (e) {
+      print(e);
+      errorState();
+    }
   }
 
   Future<void> signUpWithEmailAndPassword(String email, String password) async {
-    await _auth.createUserWithEmailAndPassword(
+    var response = await _auth.createUserWithEmailAndPassword(
         email: email.trim(), password: password.trim());
+    print(response);
   }
 
   Future<void> signOut() async {

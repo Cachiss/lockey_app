@@ -15,6 +15,13 @@ class _LoginPageState extends State<LoginPage> {
   final Auth auth = Auth();
 
   String email = '', password = '';
+  bool _errorMessage = false;
+
+  void errorState() {
+    setState(() {
+      _errorMessage = true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +30,7 @@ class _LoginPageState extends State<LoginPage> {
         print('No ha iniciado sesión');
       } else {
         print('Ha iniciado sesión');
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()),
-        );
+        Navigator.pushNamed(context, '/');
       }
     });
     return Scaffold(
@@ -90,6 +94,14 @@ class _LoginPageState extends State<LoginPage> {
                                     return null;
                                   }),
                             ),
+                            if (_errorMessage)
+                              Container(
+                                alignment: Alignment.centerLeft,
+                                margin: const EdgeInsets.only(top: 20),
+                                child: const Text(
+                                    "Usuario o contraseña incorrecta",
+                                    style: TextStyle(color: Colors.red)),
+                              ),
                             Container(
                               margin: const EdgeInsets.only(top: 20),
                               child: ElevatedButton(
@@ -99,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
                                     //guardar los valores de los input
                                     _formKey.currentState!.save();
                                     auth.signInWithEmailAndPassword(
-                                        email, password);
+                                        email, password, errorState);
                                   }
                                 },
                                 style: ButtonStyle(
