@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 class Auth {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -8,12 +9,15 @@ class Auth {
   Stream<User?> get authStateChanges => _auth.authStateChanges();
 
   Future<void> signInWithEmailAndPassword(String email, String password) async {
-    await _auth.signInWithEmailAndPassword(email: email, password: password);
+    print("email: $email, password: $password");
+    var response = await _auth.signInWithEmailAndPassword(
+        email: email, password: password);
+    print("response: $response");
   }
 
   Future<void> signUpWithEmailAndPassword(String email, String password) async {
     await _auth.createUserWithEmailAndPassword(
-        email: email, password: password);
+        email: email.trim(), password: password.trim());
   }
 
   Future<void> signOut() async {

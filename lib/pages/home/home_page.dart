@@ -12,15 +12,27 @@ class HomePage extends StatelessWidget {
         print('No ha iniciado sesión');
         Navigator.pushNamed(context, '/login');
       } else {
-        print('Logueado');
+        print('Ha iniciado sesión');
       }
     });
 
     return Scaffold(
       body: Container(
         padding: EdgeInsets.all(20),
-        child: Center(
-          child: Text("Esta es la página de Home"),
+        child: Container(
+          child: Column(
+            children: [
+              Center(
+                child: Text("Esta es la página de Home"),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  auth.signOut();
+                },
+                child: Text("Cerrar sesión"),
+              ),
+            ],
+          ),
         ),
       ),
     );

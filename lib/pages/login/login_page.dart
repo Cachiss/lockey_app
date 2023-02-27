@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:app/auth.dart';
+import 'package:email_validator/email_validator.dart';
+import 'package:app/pages/home/home_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -9,9 +12,23 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
+  final Auth auth = Auth();
+
+  String email = '', password = '';
 
   @override
   Widget build(BuildContext context) {
+    auth.authStateChanges.listen((user) {
+      if (user == null) {
+        print('No ha iniciado sesión');
+      } else {
+        print('Ha iniciado sesión');
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+        );
+      }
+    });
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
@@ -38,43 +55,61 @@ class _LoginPageState extends State<LoginPage> {
                           children: [
                             Container(
                               margin: const EdgeInsets.only(top: 20),
-                              child: const TextField(
-                                decoration: InputDecoration(
-                                  hintText: "Nombre de usuario",
-                                  labelText: "Nombre de usuario",
-                                  border: OutlineInputBorder(),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(top: 20),
-                              child: const TextField(
-                                decoration: InputDecoration(
+                              child: TextFormField(
+                                keyboardType: TextInputType.emailAddress,
+                                decoration: const InputDecoration(
                                     hintText: "Correo electrónico",
                                     labelText: "Correo electrónico",
                                     border: OutlineInputBorder()),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Por favor ingrese su correo electrónico';
+                                  }
+                                  if (!EmailValidator.validate(value)) {
+                                    return 'Ingrese un correo electrónico correcto';
+                                  }
+                                  return null;
+                                },
+                                onSaved: (String? value) => email = value!,
                               ),
                             ),
                             Container(
                               margin: const EdgeInsets.only(top: 20),
-                              child: const TextField(
-                                decoration: InputDecoration(
-                                    hintText: "Contraseña",
-                                    labelText: "Contraseña",
-                                    border: OutlineInputBorder()),
-                              ),
+                              child: TextFormField(
+                                  keyboardType: TextInputType.visiblePassword,
+                                  obscureText: true,
+                                  onSaved: (String? value) => password = value!,
+                                  decoration: const InputDecoration(
+                                      hintText: "Contraseña",
+                                      labelText: "Contraseña",
+                                      border: OutlineInputBorder()),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Por favor ingrese su contraseña';
+                                    }
+                                    return null;
+                                  }),
                             ),
                             Container(
                               margin: const EdgeInsets.only(top: 20),
                               child: ElevatedButton(
-                                  onPressed: () {},
-                                  child: Text("Confirmar"),
-                                  style: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty.all(
-                                        Colors.black87),
-                                    minimumSize: MaterialStateProperty.all(
-                                        const Size(double.infinity, 50)),
-                                  )),
+                                onPressed: () {
+                                  //validacón del input
+                                  if (_formKey.currentState!.validate()) {
+                                    //guardar los valores de los input
+                                    _formKey.currentState!.save();
+                                    auth.signInWithEmailAndPassword(
+                                        email, password);
+                                  }
+                                },
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all(Colors.black87),
+                                  minimumSize: MaterialStateProperty.all(
+                                      const Size(double.infinity, 50)),
+                                ),
+                                child: const Text("Confirmar"),
+                              ),
                             ),
                           ],
                         ),
