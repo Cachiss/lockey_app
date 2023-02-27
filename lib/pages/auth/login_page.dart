@@ -1,7 +1,7 @@
+import 'package:app/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:app/auth.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:app/pages/home/home_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -17,10 +17,17 @@ class _LoginPageState extends State<LoginPage> {
   String email = '', password = '';
   bool _errorMessage = false;
 
-  void errorState() {
+  void _errorState() {
     setState(() {
       _errorMessage = true;
     });
+  }
+
+  void _submit() {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      auth.signInWithEmailAndPassword(email, password, _errorState);
+    }
   }
 
   @override
@@ -104,25 +111,23 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             Container(
                               margin: const EdgeInsets.only(top: 20),
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  //validacón del input
-                                  if (_formKey.currentState!.validate()) {
-                                    //guardar los valores de los input
-                                    _formKey.currentState!.save();
-                                    auth.signInWithEmailAndPassword(
-                                        email, password, errorState);
-                                  }
-                                },
-                                style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all(Colors.black87),
-                                  minimumSize: MaterialStateProperty.all(
-                                      const Size(double.infinity, 50)),
-                                ),
-                                child: const Text("Confirmar"),
+                              child: ButtonWidget(
+                                textContent: "Iniciar sesión",
+                                onPressed: _submit,
                               ),
                             ),
+                            Row(
+                              children: [
+                                const Text("¿No tienes una cuenta?"),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pushReplacementNamed(
+                                        context, '/register');
+                                  },
+                                  child: const Text("Regístrate"),
+                                ),
+                              ],
+                            )
                           ],
                         ),
                       ),
