@@ -37,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
         print('No ha iniciado sesión');
       } else {
         print('Ha iniciado sesión');
-        Navigator.pushNamed(context, '/');
+        Navigator.pushNamed(context, '/home');
       }
     });
     return Scaffold(
@@ -121,8 +121,7 @@ class _LoginPageState extends State<LoginPage> {
                                 const Text("¿No tienes una cuenta?"),
                                 TextButton(
                                   onPressed: () {
-                                    Navigator.pushReplacementNamed(
-                                        context, '/register');
+                                    Navigator.pushNamed(context, '/register');
                                   },
                                   child: const Text("Regístrate"),
                                 ),

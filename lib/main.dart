@@ -28,10 +28,11 @@ class LockeyApp extends StatelessWidget {
         Locale('es', 'ES'),
       ],
       title: 'Lockey App',
-      home: HomePage(),
+      home: LoginPage(),
       routes: {
         '/login': (context) => const LoginPage(),
         '/register': (context) => const RegisterPage(),
+        '/home': (context) => HomePage(),
       },
     );
   }
