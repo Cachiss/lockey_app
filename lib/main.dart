@@ -22,7 +22,11 @@ class LockeyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Material App',
+      supportedLocales: const [
+        Locale('en', 'US'),
+        Locale('es', 'ES'),
+      ],
+      title: 'Lockey App',
       home: HomePage(),
       routes: {
         '/login': (context) => const LoginPage(),
