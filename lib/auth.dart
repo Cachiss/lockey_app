@@ -22,9 +22,16 @@ class Auth {
   }
 
   Future<void> signUpWithEmailAndPassword(String email, String password) async {
-    var response = await _auth.createUserWithEmailAndPassword(
-        email: email.trim(), password: password.trim());
-    print(response);
+    try {
+      print("email: $email, password: $password");
+      //dont log in after signup, just create the user
+      await _auth.createUserWithEmailAndPassword(
+          email: email.trim(), password: password.trim());
+      //cancel authstatechanges subscription
+      await _auth.signOut();
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future<void> signOut() async {

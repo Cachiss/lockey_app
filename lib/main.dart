@@ -1,3 +1,4 @@
+import 'package:app/pages/auth/register_page.dart';
 import 'package:app/pages/home/home_page.dart';
 import 'package:flutter/material.dart';
 
@@ -30,6 +31,7 @@ class LockeyApp extends StatelessWidget {
       home: HomePage(),
       routes: {
         '/login': (context) => const LoginPage(),
+        '/register': (context) => const RegisterPage(),
       },
     );
   }
