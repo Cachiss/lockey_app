@@ -21,14 +21,22 @@ class Auth {
     }
   }
 
-  Future<void> signUpWithEmailAndPassword(String email, String password) async {
+  Future<bool?> signUpWithEmailAndPassword(
+      String email, String password, Function setError) async {
     try {
       print("email: $email, password: $password");
-      //dont log in after signup, just create the user
       await _auth.createUserWithEmailAndPassword(
           email: email.trim(), password: password.trim());
-      //cancel authstatechanges subscription
-      await _auth.signOut();
+
+      return true;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak.');
+        setError("La contraseña es muy débil");
+      } else if (e.code == 'email-already-in-use') {
+        print('The account already exists for that email.');
+        setError("El correo ya está en uso");
+      }
     } catch (e) {
       print(e);
     }

@@ -15,15 +15,26 @@ class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
 
   String email = '', password = '', name = '', passwordConfirm = '';
+  String? error;
 
   void _submit() async {
+    _formKey.currentState!.save();
     if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
-      await auth.signUpWithEmailAndPassword(email, password);
-      Navigator.pushReplacementNamed(context, '/login');
+      bool? response =
+          await auth.signUpWithEmailAndPassword(email, password, setError);
+      if (response == true) {
+        //enviar a la página de login
+        Navigator.pushReplacementNamed(context, '/login');
+      }
     } else {
       print("no se pudo registrar");
     }
+  }
+
+  void setError(message) {
+    setState(() {
+      error = message;
+    });
   }
 
   @override
@@ -60,36 +71,86 @@ class _RegisterPageState extends State<RegisterPage> {
                       children: [
                         TextFormField(
                           onSaved: (value) => name = value!,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: "Nombre",
                             labelText: "Escribe tu nombre",
                             border: OutlineInputBorder(),
                           ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "El nombre no puede estar vacío";
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(
+                          height: 20,
                         ),
                         TextFormField(
                           onSaved: (value) => email = value!,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: "Correo electrónico",
                             labelText: "Correo electrónico",
                             border: OutlineInputBorder(),
                           ),
+                          validator: (value) {
+                            if (!EmailValidator.validate(value!)) {
+                              return "El correo electrónico no es válido";
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(
+                          height: 20,
                         ),
                         TextFormField(
                           onSaved: (value) => password = value!,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: "Contraseña",
                             labelText: "Contraseña",
                             border: OutlineInputBorder(),
                           ),
+                          validator: (value) {
+                            if (value != passwordConfirm) {
+                              return "Las contraseñas no coinciden";
+                            }
+                            if (value!.length < 6 || value.isEmpty) {
+                              return "La contraseña debe tener al menos 6 caracteres";
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(
+                          height: 20,
                         ),
                         TextFormField(
                           onSaved: (value) => passwordConfirm = value!,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: "Confirmar contraseña",
                             labelText: "Confirmar contraseña",
                             border: OutlineInputBorder(),
                           ),
+                          validator: (value) {
+                            if (value != password) {
+                              return "Las contraseñas no coinciden";
+                            }
+                            if (value!.length < 6 || value.isEmpty) {
+                              return "La contraseña debe tener al menos 6 caracteres";
+                            }
+                          },
                         ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        if (error != null)
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            margin: EdgeInsets.only(bottom: 20),
+                            child: Text(
+                              error!,
+                              style: TextStyle(color: Colors.red),
+                            ),
+                          ),
                         Container(
                             margin: EdgeInsets.only(top: 20),
                             child: ButtonWidget(
@@ -97,7 +158,18 @@ class _RegisterPageState extends State<RegisterPage> {
                               textContent: "Registrarse",
                             )),
                       ],
-                    ))
+                    )),
+                Row(
+                  children: [
+                    const Text("¿No tienes una cuenta?"),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/');
+                      },
+                      child: const Text("Inicia sesión"),
+                    ),
+                  ],
+                )
               ],
             ),
           ),

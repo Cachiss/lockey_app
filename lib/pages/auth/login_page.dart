@@ -59,77 +59,81 @@ class _LoginPageState extends State<LoginPage> {
                     width: 300,
                   ),
                   Container(
-                    child: Center(
-                      child: Form(
-                        key: _formKey,
-                        child: Column(
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.only(top: 20),
-                              child: TextFormField(
-                                keyboardType: TextInputType.emailAddress,
-                                decoration: const InputDecoration(
-                                    hintText: "Correo electrónico",
-                                    labelText: "Correo electrónico",
-                                    border: OutlineInputBorder()),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Por favor ingrese su correo electrónico';
-                                  }
-                                  if (!EmailValidator.validate(value)) {
-                                    return 'Ingrese un correo electrónico correcto';
-                                  }
-                                  return null;
-                                },
-                                onSaved: (String? value) => email = value!,
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(top: 20),
-                              child: TextFormField(
-                                  keyboardType: TextInputType.visiblePassword,
-                                  obscureText: true,
-                                  onSaved: (String? value) => password = value!,
+                    child: Column(
+                      children: [
+                        Form(
+                          key: _formKey,
+                          child: Column(
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.only(top: 20),
+                                child: TextFormField(
+                                  keyboardType: TextInputType.emailAddress,
                                   decoration: const InputDecoration(
-                                      hintText: "Contraseña",
-                                      labelText: "Contraseña",
+                                      hintText: "Correo electrónico",
+                                      labelText: "Correo electrónico",
                                       border: OutlineInputBorder()),
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return 'Por favor ingrese su contraseña';
+                                      return 'Por favor ingrese su correo electrónico';
+                                    }
+                                    if (!EmailValidator.validate(value)) {
+                                      return 'Ingrese un correo electrónico correcto';
                                     }
                                     return null;
-                                  }),
-                            ),
-                            if (_errorMessage)
-                              Container(
-                                alignment: Alignment.centerLeft,
-                                margin: const EdgeInsets.only(top: 20),
-                                child: const Text(
-                                    "Usuario o contraseña incorrecta",
-                                    style: TextStyle(color: Colors.red)),
-                              ),
-                            Container(
-                              margin: const EdgeInsets.only(top: 20),
-                              child: ButtonWidget(
-                                textContent: "Iniciar sesión",
-                                onPressed: _submit,
-                              ),
-                            ),
-                            Row(
-                              children: [
-                                const Text("¿No tienes una cuenta?"),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pushNamed(context, '/register');
                                   },
-                                  child: const Text("Regístrate"),
+                                  onSaved: (String? value) => email = value!,
                                 ),
-                              ],
-                            )
-                          ],
+                              ),
+                              Container(
+                                margin: const EdgeInsets.only(top: 20),
+                                child: TextFormField(
+                                    keyboardType: TextInputType.visiblePassword,
+                                    obscureText: true,
+                                    onSaved: (String? value) =>
+                                        password = value!,
+                                    decoration: const InputDecoration(
+                                        hintText: "Contraseña",
+                                        labelText: "Contraseña",
+                                        border: OutlineInputBorder()),
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Por favor ingrese su contraseña';
+                                      }
+                                      return null;
+                                    }),
+                              ),
+                              if (_errorMessage)
+                                Container(
+                                  alignment: Alignment.centerLeft,
+                                  margin: const EdgeInsets.only(top: 20),
+                                  child: const Text(
+                                      "Usuario o contraseña incorrecta",
+                                      style: TextStyle(color: Colors.red)),
+                                ),
+                              Container(
+                                margin: const EdgeInsets.only(top: 20),
+                                child: ButtonWidget(
+                                  textContent: "Iniciar sesión",
+                                  onPressed: _submit,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
+                        Row(
+                          children: [
+                            const Text("¿No tienes una cuenta?"),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pushReplacementNamed(
+                                    context, '/register');
+                              },
+                              child: const Text("Regístrate"),
+                            ),
+                          ],
+                        )
+                      ],
                     ),
                   ),
                 ],
