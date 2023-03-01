@@ -1,4 +1,5 @@
 import 'package:app/widgets/button.dart';
+import 'package:app/widgets/date_select.dart';
 import 'package:flutter/material.dart';
 import 'package:app/auth.dart';
 import 'package:email_validator/email_validator.dart';
@@ -20,8 +21,8 @@ class _RegisterPageState extends State<RegisterPage> {
   void _submit() async {
     _formKey.currentState!.save();
     if (_formKey.currentState!.validate()) {
-      bool? response =
-          await auth.signUpWithEmailAndPassword(email, password, setError);
+      bool? response = await auth.signUpWithEmailAndPassword(
+          name, email, password, setError);
       if (response == true) {
         //enviar a la página de login
         Navigator.pushReplacementNamed(context, '/login');
@@ -164,7 +165,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     const Text("¿No tienes una cuenta?"),
                     TextButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/');
+                        Navigator.pushReplacementNamed(context, '/');
                       },
                       child: const Text("Inicia sesión"),
                     ),
