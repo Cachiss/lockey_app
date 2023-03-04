@@ -39,6 +39,7 @@ dependencies:
   firebase_auth: ^4.2.9
   email_validator: ^2.1.17
   cloud_firestore: ^4.4.3
+  provider: ^6.0.5
 
 dev_dependencies:
   flutter_test:
@@ -59,7 +60,11 @@ flutter:
 
   assets: 
     - assets/
-
+    - assets/illustrations/
+  fonts: 
+    - family: Playfair
+      fonts:
+        - asset: assets/fonts/PlayfairDisplay-VariableFont_wght.ttf
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
