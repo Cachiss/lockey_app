@@ -1,6 +1,6 @@
-import 'package:app/widgets/button.dart';
+import 'package:app/widgets/buttons/button.dart';
 import 'package:flutter/material.dart';
-import 'package:app/auth.dart';
+import 'package:app/auth/auth.dart';
 import 'package:email_validator/email_validator.dart';
 
 class LoginPage extends StatefulWidget {
@@ -47,32 +47,49 @@ class _LoginPageState extends State<LoginPage> {
               padding: const EdgeInsets.all(20),
               child: Column(
                 children: [
-                  const Text("Bienvenido a Lockey",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                      )),
                   const Image(
-                    image: AssetImage("assets/lockey-logo.png"),
-                    height: 300,
-                    width: 300,
+                    image: AssetImage("assets/illustrations/ilustration_4.png"),
+                    height: 250,
+                    width: 240,
                   ),
                   Container(
                     child: Column(
                       children: [
+                        Container(
+                          margin: const EdgeInsets.symmetric(vertical: 20),
+                          child: const Text(
+                            "Iniciar sesión",
+                            style: TextStyle(
+                                fontSize: 40,
+                                fontFamily: 'Playfair',
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
                         Form(
                           key: _formKey,
                           child: Column(
                             children: [
                               Container(
                                 margin: const EdgeInsets.only(top: 20),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: Colors.grey[100],
+                                ),
                                 child: TextFormField(
                                   keyboardType: TextInputType.emailAddress,
+                                  controller:
+                                      TextEditingController(text: email),
                                   decoration: const InputDecoration(
-                                      hintText: "Correo electrónico",
-                                      labelText: "Correo electrónico",
-                                      border: OutlineInputBorder()),
+                                    hintText: "Correo electrónico",
+                                    labelText: "Correo electrónico",
+                                    border: OutlineInputBorder(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(20)),
+                                      borderSide: BorderSide(
+                                          color: Colors.black, width: 1),
+                                    ),
+                                    prefixIcon: Icon(Icons.email),
+                                  ),
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return 'Por favor ingrese su correo electrónico';
@@ -87,15 +104,25 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               Container(
                                 margin: const EdgeInsets.only(top: 20),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: Colors.grey[100],
+                                ),
                                 child: TextFormField(
                                     keyboardType: TextInputType.visiblePassword,
                                     obscureText: true,
                                     onSaved: (String? value) =>
                                         password = value!,
                                     decoration: const InputDecoration(
+                                        prefixIcon: Icon(Icons.lock),
                                         hintText: "Contraseña",
                                         labelText: "Contraseña",
-                                        border: OutlineInputBorder()),
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(20)),
+                                          borderSide: BorderSide(
+                                              color: Colors.black, width: 1),
+                                        )),
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
                                         return 'Por favor ingrese su contraseña';
@@ -112,7 +139,9 @@ class _LoginPageState extends State<LoginPage> {
                                       style: TextStyle(color: Colors.red)),
                                 ),
                               Container(
-                                margin: const EdgeInsets.only(top: 20),
+                                margin: const EdgeInsets.only(top: 40),
+                                width: 250,
+                                height: 50,
                                 child: ButtonWidget(
                                   textContent: "Iniciar sesión",
                                   onPressed: _submit,
@@ -121,15 +150,27 @@ class _LoginPageState extends State<LoginPage> {
                             ],
                           ),
                         ),
+                        const SizedBox(
+                          height: 20,
+                        ),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Text("¿No tienes una cuenta?"),
+                            const Text(
+                              "¿No tienes una cuenta?",
+                              style: TextStyle(
+                                  fontSize: 20, fontFamily: 'Playfair'),
+                            ),
                             TextButton(
                               onPressed: () {
                                 Navigator.pushReplacementNamed(
                                     context, '/register');
                               },
-                              child: const Text("Regístrate"),
+                              child: const Text("Regístrate",
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontFamily: 'Playfair',
+                                      decoration: TextDecoration.underline)),
                             ),
                           ],
                         )
