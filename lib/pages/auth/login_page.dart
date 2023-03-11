@@ -32,14 +32,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    auth.authStateChanges.listen((user) {
-      if (user == null) {
-        print('No ha iniciado sesión');
-      } else {
-        print('Ha iniciado sesión');
-        Navigator.pushNamed(context, '/home');
-      }
-    });
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
