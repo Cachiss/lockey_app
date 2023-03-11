@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:app/models/User.dart';
+import 'package:app/models/user_model.dart';
+import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
-class Auth {
+class Auth with ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final UserManager _userManager = UserManager();
   User? get currentUser => _auth.currentUser;
 
   Stream<User?> get authStateChanges => _auth.authStateChanges();
@@ -27,7 +28,7 @@ class Auth {
       print("email: $email, password: $password");
       await _auth.createUserWithEmailAndPassword(
           email: email.trim(), password: password.trim());
-      await _userManager.addUser(name, email);
+      //await _userManager.addUser(name, email);
       return true;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -44,5 +45,27 @@ class Auth {
 
   Future<void> signOut() async {
     await _auth.signOut();
+  }
+
+  Future<void> signInWithGoogle() async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser!.authentication;
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+    //info del usuario
+    print("googleUser: ${googleUser}");
+    await _auth.signInWithCredential(credential);
+  }
+
+  Future<void> signOutGoogle() async {
+    await GoogleSignIn().signOut();
   }
 }
