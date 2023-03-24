@@ -74,9 +74,10 @@ class MqttService {
         print('');
         if (c[0].topic == 'home/lock') {
           if (pt == 'lock') {
-            topicValueProvider.lockValue = true;
-          } else if (pt == 'unlock') {
-            topicValueProvider.lockValue = false;
+            topicValueProvider.lock = true;
+            print("es lock");
+          } else {
+            topicValueProvider.lock = false;
           }
         }
       });
@@ -91,5 +92,24 @@ class MqttService {
     final builder = MqttClientPayloadBuilder();
     builder.addString(message);
     client.publishMessage(topic, MqttQos.atLeastOnce, builder.payload!);
+  }
+
+  void disconnect() {
+    client.disconnect();
+  }
+
+  void subscribeToTopic(String topic) {
+    client.subscribe(topic, MqttQos.atLeastOnce);
+
+    client.updates!.listen((List<MqttReceivedMessage<MqttMessage>> c) {
+      final recMess = c[0].payload as MqttPublishMessage;
+      final pt =
+          MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
+      print(c);
+      print(
+          'EXAMPLE::Change notification:: topic is <${c[0].topic}>, payload is <-- $pt -->');
+      print('');
+      if (c[0].topic == topic) {}
+    });
   }
 }
