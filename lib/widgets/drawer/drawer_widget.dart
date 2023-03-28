@@ -64,6 +64,15 @@ class DrawerWidget extends StatelessWidget {
                   Navigator.pushNamed(context, "/kitchen");
                 },
               ),
+              const Divider(),
+              //ledcontrol section
+              ListTile(
+                leading: const Icon(Icons.lightbulb),
+                title: const Text("Control de luces"),
+                onTap: () {
+                  Navigator.pushReplacementNamed(context, "/ledscontrol");
+                },
+              ),
               Container(
                 margin: const EdgeInsets.only(top: 80),
                 child: ElevatedButton(

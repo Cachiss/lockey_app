@@ -6,7 +6,9 @@ import 'package:app/auth/auth.dart';
 import 'package:app/auth/auth_checker.dart';
 import 'package:provider/provider.dart';
 
+import '../../providers/topic_values.dart';
 import '../../widgets/drawer/drawer_widget.dart';
+import '../../widgets/slider/slider_widget.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
@@ -14,9 +16,7 @@ class HomePage extends StatelessWidget {
   final Auth auth = Auth();
   @override
   Widget build(BuildContext context) {
-    //consume provider
     User? user = Provider.of<User?>(context);
-    print("Hola: ${user?.email}");
     return AuthChecker(
       child: Scaffold(
         appBar: AppBar(
@@ -37,9 +37,32 @@ class HomePage extends StatelessWidget {
               padding: const EdgeInsets.all(10),
               child: Column(
                 children: [
-                  ThingCard(
-                    child: Container(),
-                  )
+                  Text(
+                    "Hola, ${user?.displayName}",
+                    style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Playfair'),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(top: 50),
+                    child: ThingCard(
+                      child: Container(),
+                    ),
+                  ),
+                  /*Container(
+                      margin: const EdgeInsets.only(top: 20),
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Luz en la sala Principal",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Playfair'),
+                      )),*/
+                  //SliderWidget(),
                 ],
               ),
             ),

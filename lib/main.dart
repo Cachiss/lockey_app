@@ -1,6 +1,7 @@
 import 'package:app/pages/auth/register_page.dart';
 import 'package:app/pages/get_started_page.dart';
 import 'package:app/pages/home/home_page.dart';
+import 'package:app/pages/leds_control/leds_control_page.dart';
 import 'package:app/pages/living_room/living_room_page.dart';
 import 'package:app/providers/topic_values.dart';
 import 'package:app/services/mqtt_client_service.dart';
@@ -22,8 +23,6 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  final MqttService mqttService = MqttService();
-  await mqttService.connectMqtt();
   runApp(
     MultiProvider(
       providers: [
@@ -31,8 +30,8 @@ Future<void> main() async {
           value: Auth().authStateChanges,
           initialData: null,
         ),
-        ChangeNotifierProvider<TopicValueProvider>.value(
-          value: TopicValueProvider(),
+        ChangeNotifierProvider<TopicValueProvider>(
+          create: (_) => TopicValueProvider(),
         ),
       ],
       child: const LockeyApp(),
@@ -40,8 +39,22 @@ Future<void> main() async {
   );
 }
 
-class LockeyApp extends StatelessWidget {
+class LockeyApp extends StatefulWidget {
   const LockeyApp({super.key});
+
+  @override
+  State<LockeyApp> createState() => _LockeyAppState();
+}
+
+class _LockeyAppState extends State<LockeyApp> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    Future.delayed(Duration.zero, () async {
+      await MqttService().connectMqtt();
+    });
+    super.initState(); //super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +69,7 @@ class LockeyApp extends StatelessWidget {
         '/livingroom': (context) => const LivingRoomPage(),
         '/kitchen': (context) => const Text('Cocina'),
         '/bedroom': (context) => const Text('Habitación'),
+        '/ledscontrol': (context) => LedsControlPage(),
       },
     );
   }

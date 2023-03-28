@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:app/providers/topic_values.dart';
+import 'package:provider/provider.dart';
 
 class MqttService {
   static const url = 'a1ugah3gemg9dt-ats.iot.us-west-2.amazonaws.com';
@@ -12,7 +13,8 @@ class MqttService {
 
   // Create the client
   final client = MqttServerClient.withPort(url, clientId, port);
-  final TopicValueProvider topicValueProvider = TopicValueProvider();
+  TopicValueProvider topicValueProvider = TopicValueProvider();
+  //Provider.of<UserDataProvider>(context, listen: false).setData
 
   Future<void> connectMqtt() async {
     // Set secure
@@ -64,19 +66,19 @@ class MqttService {
       client.subscribe('home/lock', MqttQos.atLeastOnce);
       client.subscribe('home/room/led', MqttQos.atLeastOnce);
       // Print incoming messages from another client on this topic
-      client.updates!.listen((List<MqttReceivedMessage<MqttMessage>> c) {
+      client.updates!.listen((List<MqttReceivedMessage<MqttMessage>> c) async {
         final recMess = c[0].payload as MqttPublishMessage;
         final pt =
             MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
         print(c);
-        print(
-            'EXAMPLE::Change notification:: topic is <${c[0].topic}>, payload is <-- $pt -->');
+        print('Topic is <${c[0].topic}>, payload is <-- $pt -->');
         print('');
         if (c[0].topic == 'home/lock') {
           if (pt == 'lock') {
-            topicValueProvider.lock = true;
             print("es lock");
+            topicValueProvider.lock = true;
           } else {
+            print("es unlock");
             topicValueProvider.lock = false;
           }
         }
@@ -89,9 +91,13 @@ class MqttService {
   }
 
   void publish(String topic, String message) {
-    final builder = MqttClientPayloadBuilder();
-    builder.addString(message);
-    client.publishMessage(topic, MqttQos.atLeastOnce, builder.payload!);
+    if (client.connectionStatus!.state == MqttConnectionState.connected) {
+      final builder = MqttClientPayloadBuilder();
+      builder.addString(message);
+      client.publishMessage(topic, MqttQos.atLeastOnce, builder.payload!);
+    } else {
+      print('ERROR: MQTT client not connected in publish');
+    }
   }
 
   void disconnect() {
