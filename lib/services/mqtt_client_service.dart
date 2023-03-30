@@ -96,7 +96,8 @@ class MqttService {
     if (client.connectionStatus!.state == MqttConnectionState.connected) {
       final builder = MqttClientPayloadBuilder();
       builder.addString(message);
-      client.publishMessage(topic, MqttQos.atLeastOnce, builder.payload!);
+      client.publishMessage(topic, MqttQos.atLeastOnce, builder.payload!,
+          retain: true);
     } else {
       print('ERROR: MQTT client not connected in publish');
     }

@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import '../../providers/topic_values.dart';
 import '../../widgets/drawer/drawer_widget.dart';
 import '../../widgets/slider/slider_widget.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({super.key});
@@ -23,9 +24,12 @@ class _HomePageState extends State<HomePage> {
   final Auth auth = Auth();
   bool isConnected = false;
   bool isLocked = false;
+  double lightValue = 0;
 
   var handleLock;
+  var setLigthValue;
 
+  //use effect of light value
   @override
   void initState() {
     // TODO: implement initState
@@ -54,6 +58,10 @@ class _HomePageState extends State<HomePage> {
               isLocked = false;
             });
           }
+        } else if (c[0].topic == 'home/main/led') {
+          setState(() {
+            lightValue = double.parse(pt);
+          });
         }
       });
       setState(() {
@@ -64,6 +72,9 @@ class _HomePageState extends State<HomePage> {
           } else {
             mqttService.publish("home/lock", "lock");
           }
+        };
+        setLigthValue = (double value) {
+          mqttService.publish("home/main/led", value.toString());
         };
       });
     });
@@ -122,7 +133,17 @@ class _HomePageState extends State<HomePage> {
                             fontWeight: FontWeight.bold,
                             fontFamily: 'Playfair'),
                       )),*/
-                  SliderWidget(),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const Text("Luz en la sala Principal",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Playfair')),
+                  SliderWidget(
+                      setlightValue: setLigthValue, lightValue: lightValue),
                 ],
               ),
             ),
