@@ -39,22 +39,8 @@ Future<void> main() async {
   );
 }
 
-class LockeyApp extends StatefulWidget {
+class LockeyApp extends StatelessWidget {
   const LockeyApp({super.key});
-
-  @override
-  State<LockeyApp> createState() => _LockeyAppState();
-}
-
-class _LockeyAppState extends State<LockeyApp> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    Future.delayed(Duration.zero, () async {
-      await MqttService().connectMqtt();
-    });
-    super.initState(); //super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {

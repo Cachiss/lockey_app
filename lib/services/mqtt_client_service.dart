@@ -63,7 +63,7 @@ class MqttService {
       await MqttUtilities.asyncSleep(1);
       // Important: AWS IoT Core can only handle QOS of 0 or 1. QOS 2 (exactlyOnce) will fail!
 
-      client.subscribe('home/lock', MqttQos.atLeastOnce);
+      /* client.subscribe('home/lock', MqttQos.atLeastOnce);
       client.subscribe('home/room/led', MqttQos.atLeastOnce);
       // Print incoming messages from another client on this topic
       client.updates!.listen((List<MqttReceivedMessage<MqttMessage>> c) async {
@@ -82,15 +82,17 @@ class MqttService {
             topicValueProvider.lock = false;
           }
         }
-      });
+      }); */
     } else {
       print(
           'ERROR MQTT client connection failed - disconnecting, state is ${client.connectionStatus!.state}');
       client.disconnect();
     }
+    //sleeping
+    //await MqttUtilities.asyncSleep(1);
   }
 
-  void publish(String topic, String message) {
+  void publish(String topic, String message) async {
     if (client.connectionStatus!.state == MqttConnectionState.connected) {
       final builder = MqttClientPayloadBuilder();
       builder.addString(message);
@@ -106,16 +108,5 @@ class MqttService {
 
   void subscribeToTopic(String topic) {
     client.subscribe(topic, MqttQos.atLeastOnce);
-
-    client.updates!.listen((List<MqttReceivedMessage<MqttMessage>> c) {
-      final recMess = c[0].payload as MqttPublishMessage;
-      final pt =
-          MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
-      print(c);
-      print(
-          'EXAMPLE::Change notification:: topic is <${c[0].topic}>, payload is <-- $pt -->');
-      print('');
-      if (c[0].topic == topic) {}
-    });
   }
 }
