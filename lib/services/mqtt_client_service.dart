@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
-import 'package:app/providers/topic_values.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:uuid/uuid_util.dart';
@@ -14,10 +13,9 @@ class MqttService {
   static const url = 'a1ugah3gemg9dt-ats.iot.us-west-2.amazonaws.com';
   static const port = 8883;
   static var clientId = Uuid(options: {'grng': UuidUtil.cryptoRNG}).v4();
-
   // Create the client
   final client = MqttServerClient.withPort(url, clientId, port);
-  TopicValueProvider topicValueProvider = TopicValueProvider();
+  //TopicValueProvider topicValueProvider = TopicValueProvider();
   //Provider.of<UserDataProvider>(context, listen: false).setData
 
   Future<void> connectMqtt() async {
@@ -34,17 +32,17 @@ class MqttService {
     // no connect ack message will be received and the broker will disconnect.
     // For AWS IoT Core, we need to set the AWS Root CA, device cert & device private key
     // Note that for Flutter users the parameters above can be set in byte format rather than file paths
-    final context = SecurityContext.defaultContext;
-    context.setTrustedCertificatesBytes(
-        CertificateManager.rootCa.buffer.asUint8List());
-    context.useCertificateChainBytes(
-        CertificateManager.certificate.buffer.asUint8List());
-    context
-        .usePrivateKeyBytes(CertificateManager.privateKey.buffer.asUint8List());
+    SecurityContext context = SecurityContext.defaultContext;
+    ByteData rootCa = await rootBundle.load('assets/certs/AmazonRootCA1.pem');
+
+    context.setClientAuthoritiesBytes(rootCa.buffer.asUint8List());
+    context.useCertificateChainBytes(CertificateManager.clientCert);
+    context.usePrivateKeyBytes(CertificateManager.privateKey);
+
     client.securityContext = context;
     // Setup the connection Message
     final connMess =
-        MqttConnectMessage().withClientIdentifier('app_flutter').startClean();
+        MqttConnectMessage().withClientIdentifier(clientId).startClean();
     client.connectionMessage = connMess;
 
     // Connect the client
@@ -62,6 +60,7 @@ class MqttService {
 
       // Publish to a topic of your choice after a slight delay, AWS seems to need this
       await MqttUtilities.asyncSleep(1);
+
       // Important: AWS IoT Core can only handle QOS of 0 or 1. QOS 2 (exactlyOnce) will fail!
 
       /* client.subscribe('home/lock', MqttQos.atLeastOnce);
@@ -90,7 +89,6 @@ class MqttService {
       client.disconnect();
     }
     //sleeping
-    //await MqttUtilities.asyncSleep(1);
   }
 
   void publish(String topic, String message) async {

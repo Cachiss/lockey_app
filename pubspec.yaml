@@ -67,6 +67,9 @@ flutter:
     - assets/
     - assets/illustrations/
     - assets/certs/
+    - assets/certs/AmazonRootCA1.pem
+    - assets/certs/8a16158fe9fa767e45b9cd649866cd808e40ae769085bc7a2257b42e001f2ff5-certificate.pem.crt
+    - assets/certs/8a16158fe9fa767e45b9cd649866cd808e40ae769085bc7a2257b42e001f2ff5-private.pem.key
   fonts: 
     - family: Playfair
       fonts:

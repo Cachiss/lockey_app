@@ -2,19 +2,28 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
 class CertificateManager {
-  static ByteData? _rootCa;
-  static ByteData? _privateKey;
-  static ByteData? _certificate;
+  static String _rootCA = "";
+  static List<int> _clientCert = [];
+  static List<int> _privateKey = [];
 
-  static Future<void> loadCertificates() async {
-    _rootCa = await rootBundle.load('assets/certs/AmazonRootCA1.pem');
-    _privateKey = await rootBundle.load(
-        'assets/certs/8a16158fe9fa767e45b9cd649866cd808e40ae769085bc7a2257b42e001f2ff5-private.pem.key');
-    _certificate = await rootBundle.load(
-        'assets/certs/8a16158fe9fa767e45b9cd649866cd808e40ae769085bc7a2257b42e001f2ff5-certificate.pem.crt');
+  static Future<void> init() async {
+    _rootCA =
+        await rootBundle.load('assets/certs/AmazonRootCA1.pem').then((value) {
+      return value.buffer.asUint8List().toString();
+    });
+
+    _clientCert = await rootBundle
+        .load(
+            'assets/certs/8a16158fe9fa767e45b9cd649866cd808e40ae769085bc7a2257b42e001f2ff5-certificate.pem.crt')
+        .then((value) => value.buffer.asUint8List());
+
+    _privateKey = await rootBundle
+        .load(
+            'assets/certs/8a16158fe9fa767e45b9cd649866cd808e40ae769085bc7a2257b42e001f2ff5-private.pem.key')
+        .then((value) => value.buffer.asUint8List());
   }
 
-  static ByteData get rootCa => _rootCa!;
-  static ByteData get privateKey => _privateKey!;
-  static ByteData get certificate => _certificate!;
+  static String get rootCA => _rootCA;
+  static List<int> get clientCert => _clientCert;
+  static List<int> get privateKey => _privateKey;
 }
