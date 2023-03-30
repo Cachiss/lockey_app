@@ -8,6 +8,8 @@ import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:uuid/uuid_util.dart';
 
+import '../certs_manager/certs_manager.dart';
+
 class MqttService {
   static const url = 'a1ugah3gemg9dt-ats.iot.us-west-2.amazonaws.com';
   static const port = 8883;
@@ -33,15 +35,12 @@ class MqttService {
     // For AWS IoT Core, we need to set the AWS Root CA, device cert & device private key
     // Note that for Flutter users the parameters above can be set in byte format rather than file paths
     final context = SecurityContext.defaultContext;
-    ByteData rootCa = await rootBundle.load('assets/certs/AmazonRootCA1.pem');
-    ByteData privateKey = await rootBundle.load(
-        'assets/certs/8a16158fe9fa767e45b9cd649866cd808e40ae769085bc7a2257b42e001f2ff5-private.pem.key');
-    ByteData certificate = await rootBundle.load(
-        'assets/certs/8a16158fe9fa767e45b9cd649866cd808e40ae769085bc7a2257b42e001f2ff5-certificate.pem.crt');
-
-    context.setTrustedCertificatesBytes(rootCa.buffer.asUint8List());
-    context.useCertificateChainBytes(certificate.buffer.asUint8List());
-    context.usePrivateKeyBytes(privateKey.buffer.asUint8List());
+    context.setTrustedCertificatesBytes(
+        CertificateManager.rootCa.buffer.asUint8List());
+    context.useCertificateChainBytes(
+        CertificateManager.certificate.buffer.asUint8List());
+    context
+        .usePrivateKeyBytes(CertificateManager.privateKey.buffer.asUint8List());
     client.securityContext = context;
     // Setup the connection Message
     final connMess =

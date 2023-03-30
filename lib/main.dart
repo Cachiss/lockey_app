@@ -1,3 +1,4 @@
+import 'package:app/certs_manager/certs_manager.dart';
 import 'package:app/pages/auth/register_page.dart';
 import 'package:app/pages/bedroom/bedroom_page.dart';
 import 'package:app/pages/get_started_page.dart';
@@ -25,6 +26,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await CertificateManager.loadCertificates();
   runApp(
     MultiProvider(
       providers: [
