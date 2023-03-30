@@ -100,7 +100,7 @@ class _HomePageState extends State<HomePage> {
                   fontFamily: 'Playfair',
                   fontWeight: FontWeight.w500)),
         ),
-        drawer: DrawerWidget(),
+        drawer: const DrawerWidget(),
         body: SingleChildScrollView(
           child: Container(
             padding: const EdgeInsets.all(20),

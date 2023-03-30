@@ -1,6 +1,8 @@
 import 'package:app/pages/auth/register_page.dart';
+import 'package:app/pages/bedroom/bedroom_page.dart';
 import 'package:app/pages/get_started_page.dart';
 import 'package:app/pages/home/home_page.dart';
+import 'package:app/pages/kitchen/kitchen_page.dart';
 import 'package:app/pages/leds_control/leds_control_page.dart';
 import 'package:app/pages/living_room/living_room_page.dart';
 import 'package:app/providers/topic_values.dart';
@@ -53,9 +55,8 @@ class LockeyApp extends StatelessWidget {
         '/register': (context) => const RegisterPage(),
         '/home': (context) => HomePage(),
         '/livingroom': (context) => const LivingRoomPage(),
-        '/kitchen': (context) => const Text('Cocina'),
-        '/bedroom': (context) => const Text('Habitación'),
-        '/ledscontrol': (context) => LedsControlPage(),
+        '/kitchen': (context) => KitchenPage(),
+        '/bedroom': (context) => BedroomPage(),
       },
     );
   }

@@ -8,13 +8,15 @@ import '../../auth/auth.dart';
 import '../cards/user_card.dart';
 
 class DrawerWidget extends StatelessWidget {
-  const DrawerWidget({super.key});
+  const DrawerWidget({Key? key});
 
   @override
   Widget build(BuildContext context) {
     User? user = Provider.of<User?>(context);
 
     final Auth auth = Auth();
+    final String route = ModalRoute.of(context)?.settings.name ?? "";
+    print("route: $route");
     return Drawer(
       child: SingleChildScrollView(
         child: Container(
@@ -37,7 +39,12 @@ class DrawerWidget extends StatelessWidget {
                 leading: const Icon(Icons.home),
                 title: const Text("Inicio"),
                 onTap: () {
-                  Navigator.pushNamed(context, "/home");
+                  if (route == "/" || route == "/home") {
+                    Navigator.pop(context);
+                  } else {
+                    print("estoy bien wey");
+                    Navigator.pushReplacementNamed(context, "/home");
+                  }
                 },
               ),
               const Divider(),
@@ -45,7 +52,7 @@ class DrawerWidget extends StatelessWidget {
                 leading: const Icon(Icons.chair),
                 title: const Text("Sala"),
                 onTap: () {
-                  Navigator.pushNamed(context, "/livingroom");
+                  Navigator.pushReplacementNamed(context, "/livingroom");
                 },
               ),
               const Divider(),
@@ -53,7 +60,11 @@ class DrawerWidget extends StatelessWidget {
                 leading: const Icon(Icons.bedtime),
                 title: const Text("Dormitorio"),
                 onTap: () {
-                  Navigator.pushNamed(context, "/bedroom");
+                  if (route != "/bedroom") {
+                    Navigator.pop(context);
+                  } else {
+                    Navigator.pushNamed(context, "/bedroom");
+                  }
                 },
               ),
               const Divider(),
@@ -61,16 +72,11 @@ class DrawerWidget extends StatelessWidget {
                 leading: const Icon(Icons.kitchen),
                 title: const Text("Cocina"),
                 onTap: () {
-                  Navigator.pushNamed(context, "/kitchen");
-                },
-              ),
-              const Divider(),
-              //ledcontrol section
-              ListTile(
-                leading: const Icon(Icons.lightbulb),
-                title: const Text("Control de luces"),
-                onTap: () {
-                  Navigator.pushReplacementNamed(context, "/ledscontrol");
+                  if (route != "/kitchen") {
+                    Navigator.pop(context);
+                  } else {
+                    Navigator.pushNamed(context, "/kitchen");
+                  }
                 },
               ),
               Container(
