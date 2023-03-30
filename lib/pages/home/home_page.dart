@@ -29,7 +29,6 @@ class _HomePageState extends State<HomePage> {
   var handleLock;
   var setLigthValue;
 
-  //use effect of light value
   @override
   void initState() {
     // TODO: implement initState
@@ -38,6 +37,7 @@ class _HomePageState extends State<HomePage> {
       var clientMqtt = mqttService.client;
       await mqttService.connectMqtt();
       mqttService.subscribeToTopic("home/lock");
+      mqttService.subscribeToTopic("home/main/led");
 
       clientMqtt.updates!.listen((List<MqttReceivedMessage<MqttMessage>> c) {
         final MqttPublishMessage recMess = c[0].payload as MqttPublishMessage;
