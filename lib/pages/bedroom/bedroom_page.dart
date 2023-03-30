@@ -1,3 +1,4 @@
+import 'package:app/layouts/room_page.dart';
 import 'package:flutter/material.dart';
 
 class BedroomPage extends StatefulWidget {
@@ -10,6 +11,6 @@ class BedroomPage extends StatefulWidget {
 class _BedroomPageState extends State<BedroomPage> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return LockeyLayout(child: Container());
   }
 }

@@ -43,6 +43,7 @@ class DrawerWidget extends StatelessWidget {
                     Navigator.pop(context);
                   } else {
                     print("estoy bien wey");
+                    Navigator.pop(context);
                     Navigator.pushReplacementNamed(context, "/home");
                   }
                 },
@@ -60,7 +61,7 @@ class DrawerWidget extends StatelessWidget {
                 leading: const Icon(Icons.bedtime),
                 title: const Text("Dormitorio"),
                 onTap: () {
-                  if (route != "/bedroom") {
+                  if (route == "/bedroom") {
                     Navigator.pop(context);
                   } else {
                     Navigator.pushNamed(context, "/bedroom");
@@ -72,7 +73,7 @@ class DrawerWidget extends StatelessWidget {
                 leading: const Icon(Icons.kitchen),
                 title: const Text("Cocina"),
                 onTap: () {
-                  if (route != "/kitchen") {
+                  if (route == "/kitchen") {
                     Navigator.pop(context);
                   } else {
                     Navigator.pushNamed(context, "/kitchen");
