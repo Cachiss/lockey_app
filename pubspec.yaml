@@ -44,6 +44,7 @@ dependencies:
   mqtt_client: ^9.8.1
   flutter_hooks: ^0.18.6
   uuid: ^3.0.7
+  flutter_secure_storage: ^8.0.0
 
 dev_dependencies:
   flutter_test:
