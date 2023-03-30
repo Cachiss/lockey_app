@@ -5,11 +5,13 @@ import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:app/providers/topic_values.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
+import 'package:uuid/uuid_util.dart';
 
 class MqttService {
   static const url = 'a1ugah3gemg9dt-ats.iot.us-west-2.amazonaws.com';
   static const port = 8883;
-  static const clientId = 'app_flutter';
+  static var clientId = Uuid(options: {'grng': UuidUtil.cryptoRNG}).v4();
 
   // Create the client
   final client = MqttServerClient.withPort(url, clientId, port);

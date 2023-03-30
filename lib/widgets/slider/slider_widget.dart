@@ -31,9 +31,6 @@ class _SliderWidgetState extends State<SliderWidget> {
       divisions: 100,
       onChanged: (double value) {
         widget.setlightValue(value);
-        setState(() {
-          widget.lightValue = value;
-        });
       },
     );
   }
