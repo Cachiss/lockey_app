@@ -8,10 +8,13 @@ import '../../auth/auth.dart';
 import '../cards/user_card.dart';
 
 class DrawerWidget extends StatelessWidget {
-  const DrawerWidget({Key? key});
+  Function? disconnectMqtt;
+  // ignore: use_key_in_widget_constructors
+  DrawerWidget({Key? key, this.disconnectMqtt});
 
   @override
   Widget build(BuildContext context) {
+    print(disconnectMqtt);
     User? user = Provider.of<User?>(context);
 
     final Auth auth = Auth();
