@@ -9,4 +9,11 @@ class TopicValueProvider with ChangeNotifier {
     _lock = value;
     notifyListeners();
   }
+
+  String test = "test";
+
+  set testValue(String value) {
+    test = value;
+    notifyListeners();
+  }
 }
