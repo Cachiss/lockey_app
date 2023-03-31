@@ -28,13 +28,20 @@ class _HomePageState extends State<HomePage> {
 
   var handleLock;
   var setLigthValue;
-
+  var disconnectMqtt;
   @override
   void initState() {
     // TODO: implement initState
     Future.delayed(Duration.zero, () async {
       final MqttService mqttService = MqttService();
-      var clientMqtt = mqttService.client;
+      final clientMqtt = mqttService.client;
+
+      if (clientMqtt.connectionStatus!.state == MqttConnectionState.connected) {
+        setState(() {
+          isConnected = true;
+        });
+      }
+
       await mqttService.connectMqtt();
       mqttService.subscribeToTopic("home/lock");
       mqttService.subscribeToTopic("home/main/led");
@@ -76,6 +83,9 @@ class _HomePageState extends State<HomePage> {
         setLigthValue = (double value) {
           mqttService.publish("home/main/led", value.toString());
         };
+        disconnectMqtt = () {
+          clientMqtt.disconnect();
+        };
       });
     });
     super.initState();
@@ -84,7 +94,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     User? user = Provider.of<User?>(context);
-
+    //provider of lock state
     if (isConnected == false) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -100,7 +110,7 @@ class _HomePageState extends State<HomePage> {
                   fontFamily: 'Playfair',
                   fontWeight: FontWeight.w500)),
         ),
-        drawer: const DrawerWidget(),
+        drawer: DrawerWidget(disconnectMqtt: disconnectMqtt),
         body: SingleChildScrollView(
           child: Container(
             padding: const EdgeInsets.all(20),
