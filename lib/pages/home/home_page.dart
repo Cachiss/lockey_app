@@ -8,6 +8,7 @@ import 'package:app/auth/auth_checker.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:provider/provider.dart';
 
+import '../../layouts/room_page.dart';
 import '../../providers/topic_values.dart';
 import '../../widgets/drawer/drawer_widget.dart';
 import '../../widgets/slider/slider_widget.dart';
@@ -95,8 +96,16 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     User? user = Provider.of<User?>(context);
     //provider of lock state
-    if (isConnected == false) {
-      return const Center(child: CircularProgressIndicator());
+    if (!isConnected) {
+      return LockeyLayout(
+          child: Container(
+        //height of all screen, except appbar
+        height: MediaQuery.of(context).size.height -
+            AppBar().preferredSize.height -
+            MediaQuery.of(context).padding.top,
+        alignment: Alignment.center,
+        child: const CircularProgressIndicator(),
+      ));
     }
     return AuthChecker(
       child: Scaffold(

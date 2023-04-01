@@ -58,7 +58,15 @@ class _LivingRoomPageState extends State<LivingRoomPage> {
   @override
   Widget build(BuildContext context) {
     if (!isConnected) {
-      return const Center(child: CircularProgressIndicator());
+      return LockeyLayout(
+          child: Container(
+        //height of all screen, except appbar
+        height: MediaQuery.of(context).size.height -
+            AppBar().preferredSize.height -
+            MediaQuery.of(context).padding.top,
+        alignment: Alignment.center,
+        child: const CircularProgressIndicator(),
+      ));
     }
     return LockeyLayout(
         child: Padding(

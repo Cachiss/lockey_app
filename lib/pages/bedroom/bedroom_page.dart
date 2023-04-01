@@ -58,8 +58,13 @@ class _BedroomPageState extends State<BedroomPage> {
   Widget build(BuildContext context) {
     if (!isConnected) {
       return LockeyLayout(
-          child: Center(
-        child: CircularProgressIndicator(),
+          child: Container(
+        //height of all screen, except appbar
+        height: MediaQuery.of(context).size.height -
+            AppBar().preferredSize.height -
+            MediaQuery.of(context).padding.top,
+        alignment: Alignment.center,
+        child: const CircularProgressIndicator(),
       ));
     }
     return LockeyLayout(
