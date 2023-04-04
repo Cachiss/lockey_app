@@ -1,11 +1,13 @@
 import 'package:app/certs_manager/certs_manager.dart';
 import 'package:app/pages/auth/register_page.dart';
 import 'package:app/pages/bedroom/bedroom_page.dart';
+import 'package:app/pages/fingerprints/fingerprint_page.dart';
 import 'package:app/pages/get_started_page.dart';
 import 'package:app/pages/home/home_page.dart';
 import 'package:app/pages/kitchen/kitchen_page.dart';
 import 'package:app/pages/leds_control/leds_control_page.dart';
 import 'package:app/pages/living_room/living_room_page.dart';
+import 'package:app/pages/register_fingerprint/register_fingerprint.dart';
 import 'package:app/providers/topic_values.dart';
 import 'package:app/providers/topic_values.dart';
 import 'package:app/services/mqtt_client_service.dart';
@@ -64,6 +66,7 @@ class LockeyApp extends StatelessWidget {
         '/livingroom': (context) => const LivingRoomPage(),
         '/kitchen': (context) => KitchenPage(),
         '/bedroom': (context) => BedroomPage(),
+        '/register-fingerprint': (context) => const RegisterFingerprint()
       },
     );
   }

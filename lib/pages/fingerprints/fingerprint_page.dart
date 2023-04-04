@@ -13,7 +13,8 @@ class _FingerprintPageState extends State<FingerprintPage> {
     //return a form with one single text field for the fingerprint
     return Scaffold(
       appBar: AppBar(
-        title: const Text('MyWidget'),
+        title: const Text("Registrar huella"),
+        backgroundColor: Colors.black,
       ),
       body: Container(
         padding: const EdgeInsets.all(20),
@@ -31,7 +32,7 @@ class _FingerprintPageState extends State<FingerprintPage> {
               height: 20,
             ),
             const Text(
-              "Please enter your fingerprint",
+              "Escribe el nombre de la persona",
               style: TextStyle(
                   color: Colors.black,
                   fontSize: 20,
@@ -44,7 +45,7 @@ class _FingerprintPageState extends State<FingerprintPage> {
             TextField(
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: 'Fingerprint',
+                labelText: 'Nombre',
               ),
             ),
             const SizedBox(

@@ -83,6 +83,18 @@ class DrawerWidget extends StatelessWidget {
                   }
                 },
               ),
+              const Divider(),
+              ListTile(
+                leading: const Icon(Icons.fingerprint),
+                title: const Text("Registrar huella"),
+                onTap: () {
+                  if (route == "/fingerprint") {
+                    Navigator.pop(context);
+                  } else {
+                    Navigator.pushNamed(context, "/register-fingerprint");
+                  }
+                },
+              ),
               Container(
                 margin: const EdgeInsets.only(top: 80),
                 child: ElevatedButton(
