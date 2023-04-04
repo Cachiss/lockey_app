@@ -1,7 +1,9 @@
 import 'package:app/certs_manager/certs_manager.dart';
 import 'package:app/pages/auth/register_page.dart';
 import 'package:app/pages/bedroom/bedroom_page.dart';
+import 'package:app/pages/fingerprints/edit_fingerprint.dart';
 import 'package:app/pages/fingerprints/fingerprint_page.dart';
+import 'package:app/pages/fingerprints/list_all_fingerprints.dart';
 import 'package:app/pages/get_started_page.dart';
 import 'package:app/pages/home/home_page.dart';
 import 'package:app/pages/kitchen/kitchen_page.dart';
@@ -66,7 +68,9 @@ class LockeyApp extends StatelessWidget {
         '/livingroom': (context) => const LivingRoomPage(),
         '/kitchen': (context) => KitchenPage(),
         '/bedroom': (context) => BedroomPage(),
-        '/register-fingerprint': (context) => const RegisterFingerprint()
+        '/list-fingerprints': (context) => ListAllFingerprints(),
+        '/register-fingerprint': (context) => const RegisterFingerprint(),
+        '/edit-fingerprint': (context) => EditFingerprint(),
       },
     );
   }
