@@ -127,14 +127,6 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.all(10),
               child: Column(
                 children: [
-                  Text(
-                    "Hola, ${user?.displayName}",
-                    style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Playfair'),
-                  ),
                   Container(
                       padding: const EdgeInsets.only(top: 50),
                       child: ThingCard(

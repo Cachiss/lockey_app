@@ -86,12 +86,12 @@ class DrawerWidget extends StatelessWidget {
               const Divider(),
               ListTile(
                 leading: const Icon(Icons.fingerprint),
-                title: const Text("Registrar huella"),
+                title: const Text("Huellas"),
                 onTap: () {
                   if (route == "/fingerprint") {
                     Navigator.pop(context);
                   } else {
-                    Navigator.pushNamed(context, "/register-fingerprint");
+                    Navigator.pushNamed(context, "/list-fingerprints");
                   }
                 },
               ),
