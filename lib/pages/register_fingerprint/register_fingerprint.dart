@@ -4,6 +4,7 @@ import 'package:mqtt_client/mqtt_client.dart';
 
 import '../../services/mqtt_client_service.dart';
 import 'package:app/services/firestore_service.dart';
+import 'package:encrypt/encrypt.dart';
 
 class RegisterFingerprint extends StatefulWidget {
   const RegisterFingerprint({super.key});

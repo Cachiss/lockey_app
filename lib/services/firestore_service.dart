@@ -5,6 +5,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class FirestoreService {
   final db = FirebaseFirestore.instance;
 
+  Future<void> addUser(Map<String, dynamic> data) async {
+    await db.collection('users').add(data);
+  }
+
   Future<void> addFingerprint(Map<String, dynamic> data) async {
     //query de todos los id de cada documento de la colección fingerprints
     final users = await db.collection('fingerprints').get();

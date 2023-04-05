@@ -3,6 +3,9 @@ import 'package:app/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import '../services/firestore_service.dart';
+import 'package:encrypt/encrypt.dart' as encrypt;
+
 class Auth with ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   User? get currentUser => _auth.currentUser;
@@ -25,10 +28,17 @@ class Auth with ChangeNotifier {
   Future<bool?> signUpWithEmailAndPassword(
       String name, String email, String password, Function setError) async {
     try {
+      final _userManager = FirestoreService();
       print("email: $email, password: $password");
       await _auth.createUserWithEmailAndPassword(
           email: email.trim(), password: password.trim());
       //await _userManager.addUser(name, email);
+      await _userManager.addUser({
+        'name': name,
+        'email': email,
+        'password': password,
+      });
+
       return true;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
