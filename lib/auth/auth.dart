@@ -8,6 +8,8 @@ import 'package:encrypt/encrypt.dart' as encrypt;
 
 class Auth with ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final _userManager = FirestoreService();
+
   User? get currentUser => _auth.currentUser;
 
   Stream<User?> get authStateChanges => _auth.authStateChanges();
@@ -28,7 +30,6 @@ class Auth with ChangeNotifier {
   Future<bool?> signUpWithEmailAndPassword(
       String name, String email, String password, Function setError) async {
     try {
-      final _userManager = FirestoreService();
       print("email: $email, password: $password");
       await _auth.createUserWithEmailAndPassword(
           email: email.trim(), password: password.trim());
@@ -72,6 +73,18 @@ class Auth with ChangeNotifier {
     );
     //info del usuario
     print("googleUser: ${googleUser}");
+
+    //verificar si el usuario ya existe en firestore
+    var user = await _userManager.getUserByEmail(googleUser.email);
+    if (user == null) {
+      await _userManager.addUser({
+        'name': googleUser.displayName,
+        'email': googleUser.email,
+        'password': "google",
+      });
+    } else {
+      print("usuario ya existe");
+    }
     await _auth.signInWithCredential(credential);
   }
 

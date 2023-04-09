@@ -47,4 +47,17 @@ class FirestoreService {
   Future<void> updateFingerprint(String id, String name) async {
     await db.collection('fingerprints').doc(id).update({'name': name});
   }
+
+  //get user by email
+  Future<Map<String, dynamic>?> getUserByEmail(String email) async {
+    final users = await db.collection('users').get();
+    Map<String, dynamic>? userData;
+    users.docs.forEach((element) {
+      if (element.data()['email'] == email) {
+        userData = element.data();
+        userData?['id_user'] = element.id;
+      }
+    });
+    return userData;
+  }
 }
