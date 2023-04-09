@@ -80,7 +80,7 @@ class Auth with ChangeNotifier {
       await _userManager.addUser({
         'name': googleUser.displayName,
         'email': googleUser.email,
-        'password': "google",
+        'password': googleUser.id,
       });
     } else {
       print("usuario ya existe");
